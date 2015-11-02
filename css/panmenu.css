@@ -1,0 +1,54 @@
+.DD--panmenu
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    background: rgba(0,0,0,.5);
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.DD--panmenu--slide
+{
+    display: block;
+    line-height: 50px;
+    color: #fff;
+    padding: 0 20px;
+    text-align: center;
+}
+.DD--panmenu--active-bar
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #4D62DC;
+    color: #fff;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    width: 100%;
+    text-align: center;
+    width: 300px;
+    line-height: 50px;
+    height: 50px;
+    z-index: 100;
+}
+.DD--panmenu,
+.DD--panmenu--active-bar
+{
+    box-sizing: border-box;
+}
+.DD--panmenu--overlay
+{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    -webkit-transition: opacity .3s ease;
+    -o-transition: opacity .3s ease;
+    transition: opacity .3s ease;
+}

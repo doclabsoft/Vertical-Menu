@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Fader with Vertical Menu</title>
+	
+	<meta content="width=device-width,initial-scale=1" name="viewport">
+	<link rel="stylesheet" type="text/css" href="css/panmenu.css">
+	<link href='http://fonts.googleapis.com/css?family=Archivo+Narrow' rel='stylesheet' type='text/css'>
+	<style type="text/css">
+	
+	body,
+	html
+	{
+		height: 100%;
+		padding: 0;
+		margin: 0;
+	}
+	body
+	{
+	    overflow: hidden;
+		font-family: 'Archivo Narrow', sans-serif;
+		background-size: cover;
+		-webkit-transition: background-image .8s ease-out;
+		-o-transition: background-image .8s ease-out;
+		transition: background-image .8s ease-out;
+		will-change: background-image;
+		background-position: center;
+	}
+	.container
+	{
+		width: 300px;
+		height: 100%;
+		margin: 0 auto;
+	}
+	#div-console {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 200px;
+      overflow: auto;
+    }
+    .pan-container
+    {
+	    position: relative;
+	    height: 100%;
+	    width: 100%;
+	    /* background: green; */
+	    margin: 0 auto;
+    }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="pan-container"></div>
+	</div>
+	<div id="div-console"></div>
+
+	<script type="text/javascript" src="../bower_components/closurelibrary/closure/goog/base.js"></script>
+	<script type="text/javascript" src="deps.js"></script>
+	<script src='../bower_components/hammerjs/hammer.js'></script>
+
+	<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/CSSPlugin.min.js"></script>-->
+	<script type="text/javascript">
+
+	goog.require('DD.ui.flickSliders.PanMenu');
+    goog.require('goog.debug.DivConsole');
+    goog.require('goog.debug.Trace');
+    goog.require('goog.dom');
+    goog.require('goog.ui.tree.TreeControl');
+
+	var flick, slide;
+
+
+	window.onload = function()
+	{
+		var $ = goog.dom.getElement;
+		var divConsole = new goog.debug.DivConsole($('div-console'));
+	    var logger = goog.debug.LogManager.getRoot();
+	    divConsole.setCapturing(true);
+
+		flick = new DD.ui.flickSliders.PanMenu({
+			overlay: true,
+			overlayColor: '#000',
+			overlayOpacity: .3,
+			effect: 'lonesome',
+			actionTarget: document.querySelector('.pan-container')
+		});
+
+	    goog.events.listen(flick, DD.ui.flickSliders.EventType.SLIDEACTION, function(e){goog.log.info(logger, e.type + 'apply action ' + e.action);}, false, this);
+	    goog.events.listen(flick, DD.ui.flickSliders.EventType.INSERT, function(e){goog.log.info(logger, e.type);}, false, this);
+	    goog.events.listen(flick, DD.ui.flickSliders.EventType.DRAGMOVE, function(e){goog.log.info(logger, e.type);}, false, this);
+	    goog.events.listen(flick, DD.ui.flickSliders.EventType.DRAGEND, function(e){goog.log.info(logger, e.type);}, false, this);
+	    goog.events.listen(flick, DD.ui.flickSliders.EventType.SETTLE, function(e){goog.log.info(logger, e.type + ', slide index is: ' + e.index);}, false, this);
+	    goog.events.listen(flick, DD.ui.flickSliders.EventType.CHANGESLIDEINDEX, function(e){goog.log.info(logger, e.type + ', slide index changed to ' + e.index);}, false, this);
+	    goog.events.listen(flick, DD.ui.flickSliders.EventType.REMOVE, function(e){goog.log.info(logger, e.type + ', slide by index ' + e.index + ' removed');}, false, this);
+
+	    var bg = ['img/bg1.jpg', 'img/bg2.jpg', 'img/bg3.jpg', 'img/bg4.jpg', 'img/bg5.jpg', 'img/bg6.jpg']
+
+		for (var i = 0; i < 6; i++)
+		{
+			slide = flick.append(
+			{
+				caption: 'set body background by: bg - ' + [i],
+				action : function(e){document.body.style.backgroundImage = 'url('+bg[flick.getCurrentIndex()]+')';}
+			});
+		};
+
+		flick.render(document.querySelector('.pan-container'));
+	    
+		var slide = flick.getChildAt(3);
+		slide.setCaption('Test Caption at change');
+
+		flick.select(3);
+		
+	};
+	</script>
+</body>
+</html>
